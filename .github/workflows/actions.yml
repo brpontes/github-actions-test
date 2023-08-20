@@ -1,6 +1,14 @@
 name: Actions Workflow
 
-on: [push, pull_request]
+on:
+  repository_dispatch:
+    types: [build]
+  # schedule:
+  #  - cron: '0/5 * * * *'
+  #  - cron: '0/6 * * * *'
+  # push:
+  pull_request:
+    types: [closed, reopened, opened, assigned]
 
 jobs:
   run-github-actions:
@@ -8,8 +16,9 @@ jobs:
     steps:
       - name: List Files
         run: |
-          pwd
+          pwd 
           ls -a
+          echo $GITHUB_SHA
       - name: Checkout Repo
         uses: actions/checkout@v3
       - name: List Files After Checkout
